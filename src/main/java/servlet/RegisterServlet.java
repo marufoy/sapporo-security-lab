@@ -37,6 +37,16 @@ public class RegisterServlet extends HttpServlet {
         String user = request.getParameter("user");
         String pass = request.getParameter("pass");
         
+        // 💡 ユーザーネームの空白を削除
+        if (user != null) {
+            user = user.strip(); // 全角スペースも消したい場合は strip() がおすすめ
+        }
+        
+        // パスワードのnull回避
+        if (pass == null) {
+            pass = ""; 
+        }
+
         // 🛡️ 入力されたパスワードをハッシュ化
         String hashedPass = hashPassword(pass);
         String dbPath = "jdbc:sqlite:C:/temp/security.db";
@@ -47,7 +57,8 @@ public class RegisterServlet extends HttpServlet {
                  Statement stmt = conn.createStatement()) {
                 
                 stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, password TEXT)");
-                // ハッシュ化されたパスワードを保存
+                
+                // ⚠️ 研修用：あえてSQLインジェクションの脆弱性を残したINSERT文
                 stmt.executeUpdate("INSERT INTO users (username, password) VALUES ('" + user + "', '" + hashedPass + "')");
                 
                 response.setContentType("text/html; charset=UTF-8");
