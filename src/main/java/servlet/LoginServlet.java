@@ -37,16 +37,6 @@ public class LoginServlet extends HttpServlet {
         String user = request.getParameter("user");
         String pass = request.getParameter("pass");
         
-        // 💡 登録時と同じように空白を削除（正規化）
-        if (user != null) {
-            user = user.strip();
-        }
-        
-        // パスワードのnull回避（NullPointerExceptionを防ぐ）
-        if (pass == null) {
-            pass = ""; 
-        }
-
         // 🛡️ 入力パスワードをハッシュ化して突合する準備
         String hashedPass = hashPassword(pass);
         String dbPath = "jdbc:sqlite:C:/temp/security.db";
@@ -56,7 +46,7 @@ public class LoginServlet extends HttpServlet {
             try (Connection conn = DriverManager.getConnection(dbPath);
                  Statement stmt = conn.createStatement()) {
                 
-                // ☠️ 研修用：あえて残しているSQLインジェクションの的（ハッシュ化してもこの構造なら突破可能）
+                // ☠️ SQLインジェクションの的（ハッシュ化してもこの構造なら突破可能）
                 String sql = "SELECT * FROM users WHERE username='" + user + "' AND password='" + hashedPass + "'";
                 ResultSet rs = stmt.executeQuery(sql);
 

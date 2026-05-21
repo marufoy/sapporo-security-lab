@@ -85,7 +85,7 @@
                         
                         <div class="alert alert-secondary p-2 small mb-3">
                             <i class="bi bi-file-earmark-pdf"></i> 
-                            <a href="uploads/test.zip" class="text-decoration-none fw-bold" id="download-link">
+                            <a href="uploads/研修資料.zip" class="text-decoration-none fw-bold" id="download-link">
                                 【最新】2026年度Java研修_補足資料.zip
                             </a>
                             <span class="ms-2 text-muted">(解凍パスワード: <span class="badge bg-dark">java2026</span>)</span>
